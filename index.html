@@ -13,13 +13,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CIER - Gráfico de Hoy</title>
 
+    <meta property="og:title" content="CIER - Gráfico de Hoy">
+    <meta property="og:description" content="Sector Eléctrico Regional">
+    <meta property="og:image" content="https://raw.githubusercontent.com/jcbelza/Gr-fico-del-D-a/main/miniatura1.png">
+    <meta property="og:type" content="website">
+
     <style>
         :root { --cier-azul: #003366; --cier-gris: #f4f4f4; }
         
-        /* Evita el desborde y ajusta a la pantalla */
+        /* Evita que la página misma tenga scroll */
         html, body { 
-            height: 100%; margin: 0; padding: 0; overflow: hidden; 
-            background-color: var(--cier-gris); font-family: 'Segoe UI', sans-serif; 
+            height: 100%; 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden; 
+            background-color: var(--cier-gris);
+            font-family: 'Segoe UI', sans-serif;
         }
         
         body { display: flex; flex-direction: column; align-items: center; }
@@ -27,33 +36,48 @@
         header { 
             width: 100%; background-color: white; padding: 10px 0; 
             box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; 
-            justify-content: center; align-items: center; gap: 15px; flex-shrink: 0;
+            justify-content: center; align-items: center; gap: 15px;
+            flex-shrink: 0; /* Evita que el header se achique */
         }
         header img { height: 45px; width: auto; }
 
         .container { 
-            flex: 1; width: 92%; max-width: 850px; margin: 10px 0;
-            background: white; padding: 15px; border-radius: 10px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06); 
-            display: flex; flex-direction: column; align-items: center; overflow: hidden;
+            flex-grow: 1; /* Ocupa el espacio disponible */
+            width: 92%; max-width: 800px;
+            margin: 15px 0;
+            background: white; padding: 15px; 
+            border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); 
+            display: flex; flex-direction: column; align-items: center;
+            overflow: hidden; /* Corta cualquier desborde interno */
         }
 
-        #grafico-titulo { font-size: 1.1rem; color: #333; margin: 0 0 10px 0; font-weight: 600; flex-shrink: 0; }
+        #grafico-titulo { 
+            font-size: 1.2rem; color: #333; margin: 0 0 10px 0; 
+            font-weight: 600; flex-shrink: 0;
+        }
 
         #grafico-content { 
-            width: 100%; height: 100%; display: flex; 
-            justify-content: center; align-items: center; overflow: hidden;
+            width: 100%; 
+            height: 100%; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            overflow: hidden;
         }
 
         #grafico-content img { 
-            max-width: 100%; max-height: 100%; width: auto; height: auto;
-            object-fit: contain;
+            max-width: 100%; 
+            max-height: 100%; /* Obliga a la imagen a no ser más alta que el contenedor */
+            width: auto;
+            height: auto;
+            object-fit: contain; /* Mantiene la proporción sin deformar */
             border-radius: 5px; border: 1px solid #eee;
         }
 
         .footer { 
-            flex-shrink: 0; padding: 10px; font-size: 0.75rem; 
-            color: #555; text-align: center; width: 100%; background: white;
+            flex-shrink: 0; padding: 10px; font-size: 0.8rem; 
+            color: #555; text-align: center; width: 100%;
+            background: white; border-top: 1px solid #ddd;
         }
     </style>
 </head>
@@ -61,7 +85,7 @@
 
     <header>
         <img src="Logo CIER-PhotoRoom (1).png" onerror="this.src='https://www.cier.org/images/logo-cier.png'" alt="CIER">
-        <h2 style="color: var(--cier-azul); margin: 0; font-size: 1.2rem;">CIER - Gráfico de Hoy</h2>
+        <h2 style="color: var(--cier-azul); margin: 0; font-size: 1.3rem;">Observatorio Energético</h2>
     </header>
 
     <div class="container">
@@ -70,7 +94,8 @@
     </div>
 
     <div class="footer">
-        <strong>Elaboración:</strong> Juan Carlos Belza — CIER
+        <strong>Elaboración:</strong> Juan Carlos Belza <br>
+        Coordinación Internacional del Área Corporativa — CIER
     </div>
 
     <script>
@@ -78,10 +103,6 @@
             "perdidas": {
                 url: "Perdidas_Distribucion.png",
                 titulo: "Pérdidas en Distribución - LATAM vs Mundo"
-            },
-            "comercio": {
-                url: "Comercio_Electricidad_MUNDO_LATAM_EUROPA.png",
-                titulo: "Comercio Electricidad MUNDO - LATAM - EUROPA"
             }
         };
 
