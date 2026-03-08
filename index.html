@@ -16,7 +16,7 @@
     <style>
         :root { --cier-azul: #003366; --cier-gris: #f4f4f4; }
         
-        /* Evita el desborde obligando a todo a caber en la pantalla */
+        /* Evita el desborde y ajusta a la pantalla */
         html, body { 
             height: 100%; margin: 0; padding: 0; overflow: hidden; 
             background-color: var(--cier-gris); font-family: 'Segoe UI', sans-serif; 
@@ -47,7 +47,7 @@
 
         #grafico-content img { 
             max-width: 100%; max-height: 100%; width: auto; height: auto;
-            object-fit: contain; /* Esto evita que el gráfico desborde */
+            object-fit: contain;
             border-radius: 5px; border: 1px solid #eee;
         }
 
