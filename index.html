@@ -10,52 +10,15 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      // La configuración se hace abajo dinámicamente
     </script>
 
     <style>
-        :root {
-            --cier-azul: #003366;
-            --cier-gris: #f4f4f4;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: var(--cier-gris);
-            min-height: 100vh;
-        }
-        header {
-            width: 100%;
-            background-color: white;
-            padding: 1rem 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .container {
-            max-width: 900px;
-            width: 95%;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            text-align: center;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 4px;
-        }
-        .footer {
-            margin-top: 20px;
-            font-size: 0.8rem;
-            color: #666;
-            padding-bottom: 20px;
-        }
-        .error-msg { color: #cc0000; padding: 40px; }
+        :root { --cier-azul: #003366; --cier-gris: #f4f4f4; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; background-color: var(--cier-gris); min-height: 100vh; }
+        header { width: 100%; background-color: white; padding: 1rem 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; margin-bottom: 20px; }
+        .container { max-width: 1000px; width: 95%; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; }
+        img { max-width: 100%; height: auto; border-radius: 4px; border: 1px solid #ddd; }
+        .footer { margin-top: 20px; font-size: 0.8rem; color: #666; padding-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -65,7 +28,8 @@
     </header>
 
     <div class="container" id="main-container">
-        <div id="loader">Cargando gráfico...</div>
+        <h1 id="grafico-titulo" style="font-size: 1.5rem; color: #333;">Cargando...</h1>
+        <div id="grafico-content"></div>
     </div>
 
     <div class="footer">
@@ -73,48 +37,32 @@
     </div>
 
     <script>
-        // CONFIGURACIÓN DE GRÁFICOS
-        // Solo debes agregar nuevas líneas aquí cuando tengas más imágenes
         const graficos = {
-            "perdidas-distribucion": {
-                url: "https://github.com/jcbelza/Gr-fico-del-D-a/blob/main/Perdidas_Distribucion.png",
+            "perdidas": {
+                url: "Perdidas_Distribucion.png",
                 titulo: "Pérdidas en Distribución - LATAM vs Mundo"
-            },
-            "ejemplo-2": {
-                url: "nombre_de_otra_imagen.png",
-                titulo: "Otro Gráfico del Sector"
             }
+            // Aquí puedes seguir agregando más a futuro
         };
 
         function cargarGrafico() {
             const params = new URLSearchParams(window.location.search);
-            const id = params.get('id');
-            const container = document.getElementById('main-container');
-
-            // Si el ID existe en nuestra lista
-            if (id && graficos[id]) {
-                const data = graficos[id];
-                
-                container.innerHTML = `
-                    <h1 style="font-size: 1.5rem; color: #333;">${data.titulo}</h1>
-                    <img src="${data.url}" alt="${data.titulo}">
-                `;
-
-                // Notificar a Google Analytics sobre este gráfico específico
-                gtag('config', 'G-XXXXXXXXXX', {
-                    'page_title': data.titulo,
-                    'page_path': '/grafico?id=' + id
-                });
-
-            } else {
-                // Mensaje si no se encuentra el ID o es la página principal
-                container.innerHTML = `
-                    <div class="error-msg">
-                        <h3>Bienvenido al visor de gráficos</h3>
-                        <p>Por favor, seleccione un gráfico válido o use el enlace proporcionado.</p>
-                    </div>
-                `;
+            let id = params.get('id');
+            
+            // CAMBIO CLAVE: Si no hay ID en la URL, usa "perdidas" por defecto
+            if (!id || !graficos[id]) {
+                id = "perdidas";
             }
+
+            const data = graficos[id];
+            document.getElementById('grafico-titulo').innerText = data.titulo;
+            document.getElementById('grafico-content').innerHTML = `<img src="${data.url}" alt="${data.titulo}">`;
+
+            // Registro en Analytics
+            gtag('config', 'G-XXXXXXXXXX', {
+                'page_title': data.titulo,
+                'page_path': window.location.pathname + (id !== "perdidas" ? '?id=' + id : '')
+            });
         }
 
         window.onload = cargarGrafico;
