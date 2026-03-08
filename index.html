@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gráfico del Día - CIER</title>
     
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-X1LGDCTYX0"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -59,7 +59,7 @@
             document.getElementById('grafico-content').innerHTML = `<img src="${data.url}" alt="${data.titulo}">`;
 
             // Registro en Analytics
-            gtag('config', 'G-XXXXXXXXXX', {
+            gtag('config', 'G-X1LGDCTYX0', {
                 'page_title': data.titulo,
                 'page_path': window.location.pathname + (id !== "perdidas" ? '?id=' + id : '')
             });
