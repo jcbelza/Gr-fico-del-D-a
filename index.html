@@ -20,44 +20,32 @@
 
     <style>
         :root { --cier-azul: #003366; --cier-gris: #f4f4f4; }
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; background-color: var(--cier-gris); min-height: 100vh; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; background-color: var(--cier-gris); min-height: 100vh; overflow-x: hidden; }
         
         header { 
-            width: 100%; 
-            background-color: white; 
-            padding: 10px 0; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            gap: 15px;
-            margin-bottom: 20px;
+            width: 100%; background-color: white; padding: 10px 0; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; 
+            justify-content: center; align-items: center; gap: 15px; margin-bottom: 20px;
         }
         header img { height: 50px; width: auto; }
 
         .container { 
-            max-width: 900px; 
-            width: 95%; 
-            background: white; 
-            padding: 20px; 
-            border-radius: 8px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
-            text-align: center; 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            max-width: 900px; width: 95%; background: white; padding: 20px; 
+            border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+            text-align: center; display: flex; flex-direction: column; align-items: center;
         }
 
-        #grafico-titulo { font-size: 1.4rem; color: #333; margin-bottom: 15px; }
+        #grafico-titulo { font-size: 1.3rem; color: #333; margin-bottom: 15px; }
 
-        /* Ajuste de miniatura para el gráfico principal */
+        /* Ajuste estricto para que el gráfico no desborde */
+        #grafico-content { width: 100%; display: flex; justify-content: center; }
         #grafico-content img { 
             max-width: 100%; 
-            max-height: 75vh; /* Se ajusta para que no requiera scroll vertical */
+            max-height: 65vh; /* Altura reducida para asegurar que quepa en miniatura */
             height: auto; 
-            border-radius: 4px; 
-            border: 1px solid #ddd; 
+            border-radius: 4px; border: 1px solid #ddd; 
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            object-fit: contain;
         }
 
         .footer { margin-top: 20px; font-size: 0.8rem; color: #666; padding-bottom: 20px; text-align: center; }
@@ -66,8 +54,8 @@
 <body>
 
     <header>
-        <img src="miniatura1.png" alt="Logo CIER">
-        <h2 style="color: var(--cier-azul); margin: 0;">CIER - Gráfico de Hoy</h2>
+        <img src="Logo CIER-PhotoRoom (1).png" onerror="this.src='https://www.cier.org/images/logo-cier.png'" alt="Logo CIER">
+        <h2 style="color: var(--cier-azul); margin: 0;">Observatorio Energético</h2>
     </header>
 
     <div class="container" id="main-container">
@@ -76,45 +64,36 @@
     </div>
 
     <div class="footer">
-        Elaboración: Coordinación Internacional del Área Corporativa — CIER
+        Elaboración: Juan Carlos Belza — CIER
     </div>
 
     <script>
-        // CONFIGURACIÓN DE GRÁFICOS
         const graficos = {
             "perdidas": {
                 url: "Perdidas_Distribucion.png",
                 titulo: "Pérdidas en Distribución - LATAM vs Mundo"
-            },
-            
+            }, // <-- ESTA COMA ES VITAL
             "comercio": {
                 url: "Comercio_Electricidad_MUNDO_LATAM_EUROPA.png",
                 titulo: "Comercio Electricidad MUNDO - LATAM - EUROPA"
             }
-            
-            // La próxima semana añade aquí: "nuevo-id": { url: "archivo.png", titulo: "Título" }
         };
 
         function cargarGrafico() {
             const params = new URLSearchParams(window.location.search);
             let id = params.get('id');
             
-            // Si no hay ID o el ID no existe, muestra pérdidas por defecto
-            if (!id || !graficos[id]) {
-                id = "perdidas";
-            }
+            if (!id || !graficos[id]) { id = "perdidas"; }
 
             const data = graficos[id];
             document.getElementById('grafico-titulo').innerText = data.titulo;
             document.getElementById('grafico-content').innerHTML = `<img src="${data.url}" alt="${data.titulo}">`;
 
-            // Google Analytics diferenciado por gráfico
             gtag('config', 'G-X1LGDCTYX0', {
                 'page_title': data.titulo,
                 'page_path': window.location.pathname + "?id=" + id
             });
         }
-
         window.onload = cargarGrafico;
     </script>
 </body>
